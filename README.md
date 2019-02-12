@@ -63,13 +63,16 @@ make test
 make update-mocks
 ```
 
-Integration test can be launched using: 
-```
-make integration
-```
-<b> 
-the current version of integration test requires to have a clean local db.
-All these operations are required because the integration test are working with hardcoded id, meaning that after a launch some payments won't be present anymore. 
+### integration test
 
-v2 will fetch a payment from the db before performing an delete/update action
-<b>
+Currently, integration tests are a bit tricky to use, please follow the steps below:
+
+1/ `make stop` to stop the docker-compose and clean the images (in case you performed actions on the DB already)
+
+2/ `make dev` to launch development dependencies only (The postgres DB uses the port 5432, the DB is ready when you can see `database system is ready to accept connections`)
+
+3/ in a 2nd bash window: 
+- `make migration` to insert mocked data in the DB
+- `make run` to launch the API
+
+4/ in a 3rd bash window, launch `make integration`
